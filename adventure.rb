@@ -9,6 +9,3 @@ FILE_NAME = "adventure.sav"
 # so the hero can be loaded or saved to
 game = Game.new(FILE_NAME)
 game.play # Continues to execute until player quits
-
-puts
-puts "Goodbye!"
