@@ -1,8 +1,5 @@
 require './character'
 
-# Global variable to save and load file
-$FILE_NAME = 'adventure.sav'
-
 # Hero inherited from Character
 class Hero < Character
   attr_accessor :cur_exp, :max_exp
