@@ -55,7 +55,7 @@ class Game
   def show_status
     # TODO: make this better
     puts
-    puts @hero.to_s
+    puts @hero.stats
   end
 
   # Load a saved file if it exists.  The saved file is a marshaled object of hero

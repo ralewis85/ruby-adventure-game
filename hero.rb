@@ -25,7 +25,7 @@ class Hero < Character
   end
 
   # Append the hero's experience to super
-  def to_s
+  def stats
     super + "\n" +
     "Experience: #{@cur_exp}/#{@max_exp}"
   end

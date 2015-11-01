@@ -12,7 +12,7 @@ class Character
   end
 
   # Print to_s all variables that are in this class
-  def to_s
+  def stats
     "Name: #{@name}\n" +
     "Level: #{@level}\n" +
     "Health: #{@cur_health}/#{@max_health}\n" +
