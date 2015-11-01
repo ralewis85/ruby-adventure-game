@@ -1,5 +1,8 @@
+# Global variable for where files should be saved and loaded
 $file_name = "adventure.sav"
 
+# Parent class that describes all heros and monsters in the game
+# Is used to store common variables and have a to_s method
 class Character
 	attr_accessor :name, :cur_health, :max_health, :strength, :level
 	def initialize(name, health, strength)
@@ -11,6 +14,7 @@ class Character
 		@level = 1
 	end
 
+	# Print to_s all variables that are in this class
 	def to_s
 		"Name: #{@name}\n" +
 		"Level: #{@level}\n" +
@@ -19,7 +23,7 @@ class Character
 	end
 end
 
-
+# Hero inherited from Character
 class Hero < Character
 	attr_accessor :cur_exp, :max_exp
 	def initialize(name, health = 100, strength = 1)
@@ -28,6 +32,8 @@ class Hero < Character
 		@cur_exp = 0
 	end
 
+	# The hero will fight with a given monster as a parameter
+	# Return: False if the hero dies, true if the monster dies
 	def fight(monster)
 		puts		
 		puts "========FIGHT========"
@@ -39,8 +45,8 @@ class Hero < Character
 		attack_arr = []
 		@level.to_i.times { attack_arr.push("Hero") }
 		monster.level.to_i.times { attack_arr.push("Monster") }
-		puts attack_arr
 		
+		# Loop until one character dies
 		while @cur_health > 0 && monster.cur_health > 0
 			case attack_arr.shuffle.first
 				when "Hero" then monster.cur_health -= strength
@@ -51,8 +57,9 @@ class Hero < Character
 		return (@cur_health > monster.cur_health)
 	end
 
+	# Save the hero's progression
 	def save
-		open(file_nam, 'w') do |f|
+		open($file_name, 'w') do |f|
 			f.puts @name
 			f.puts @level
 			f.puts @cur_health
@@ -61,6 +68,7 @@ class Hero < Character
 			f.puts @cur_exp
 			f.puts @max_exp
 		end
+		return true
 	end
 
 	# Read each line from the saved text file, if it exists, and populate character
@@ -81,12 +89,14 @@ class Hero < Character
 		end
 	end
 
+	# Append the hero's experience to super
 	def to_s
 		super + "\n" +
 		"Experience: #{@cur_exp}/#{@max_exp}"
 	end
 end
 
+# Monster inherited from Character
 class Monster < Character
 	attr_accessor :name, :health, :strength 
 	def initialize(name = nil, health = 100, strength = 1)
@@ -115,6 +125,7 @@ while true
 
 	monster = Monster.new(nil, 20, 1)
 
+	# Decide what action to take based on user input
 	case answer.downcase
 		when "fight", "f" then hero_wins = hero.fight(monster)
 		when "load", "l"
@@ -127,11 +138,12 @@ while true
 			puts
 			puts hero.to_s
 		when "quit", "q"
-			print "Would you like to save first? [yes/no]: "
-			if gets.chomp.downcase == "yes"
-				result = hero.save()
-				puts result ? "Hero file saved!" : "Unable to save file!"
-			end
+			# For now do not prompt the user to save.  Just quit
+			#print "Would you like to save first? [yes/no]: "
+			#if gets.chomp.downcase == "yes"
+			#	result = hero.save()
+			#	puts result ? "Hero file saved!" : "Unable to save file!"
+			#end
 
 			puts
 			puts "Goodbye!"		
@@ -139,23 +151,51 @@ while true
 		else puts "That is not a valid command!"
 	end
 
-	# Decide what to do if you win or die
+	# This case will only execute if the user previous selected 'Fight'
+	# otherwise 'hero_wins' will be equal to nil.
+	# Decide what to do if the hero wins or dies from a fight
 	case hero_wins
 		when true
 			# You won!
 			gain_exp = (((hero.max_health - hero.cur_health) * 0.85) * monster.level).round
 
+			puts "You win!  Gained #{gain_exp} experience!"
 			# Reward EXP to player.  Increase EXP and level if enough EXP is gained
+			# if level increases, increase max health by 30%, restore current health
+			# and let the user know the hero leveled up
 			hero.cur_exp += gain_exp
 			while hero.cur_exp > hero.max_exp
 				hero.level += 1
 				hero.cur_exp -= hero.max_exp
 				hero.max_exp *= 2
+				hero.max_health = (hero.max_health * 1.3).round
+				hero.cur_health = hero.max_health
+				puts "#{hero.name} leveled up!"
 			end 
 
-			puts "You win!  Gained #{gain_exp} experience!"
 		when false
 			puts "You lose!"
+
+			# Your hero lost!  Now you must load an old save or create a new character
+			while true
+				print "New game or Load saved character? [New, Load]: "
+				result = gets.chomp
+
+				case result.downcase
+					when "new"
+						print "Welcome!  What is your name?: "
+						hero = Hero.new(gets.chomp)
+						break
+					when "load"
+						if hero.load()
+							puts "Hero file loaded!"
+							break
+						else
+							puts "Unable to load file!"
+						end
+					else puts "That is not a valid command!"
+				end
+			end
 	end
 end
 
