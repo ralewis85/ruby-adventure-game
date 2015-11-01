@@ -1,20 +1,20 @@
 class Battle
-	def initialize(char1, char2)
-		@hero = char1
-		@monster = char2
+  def initialize(char1, char2)
+    @hero = char1
+    @monster = char2
 
-		@winner = fight()
-	end
+    @winner = fight()
+  end
 
-	# The hero will fight with a given monster as a parameter
+  # The hero will fight with a given monster as a parameter
   # Return: False if the hero dies, true if the monster dies
-	def fight
+  def fight
     puts
     puts "========FIGHT========"
     puts "#{@hero.name} Vs #{@monster.name}"
     puts
 
-		# Populate an array with X number of levels Hero is and Y number of levels Monster is
+    # Populate an array with X number of levels Hero is and Y number of levels Monster is
     # This way whoever is a higher level has a better chance of attacking 
     attack_arr = []
     @hero.level.to_i.times { attack_arr.push("Hero") }
@@ -29,10 +29,10 @@ class Battle
     end
 
     return (@hero.cur_health > @monster.cur_health)
-	end
+  end
 
-	def result
-		return @winner
-	end
+  def result
+    return @winner
+  end
 
 end
