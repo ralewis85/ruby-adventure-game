@@ -4,16 +4,11 @@ require './battle'
 require './game'
 
 FILE_NAME = "adventure.sav"
-=begin
-# Create a new hero
-hero = Hero.new("No name")
-if hero.load() == true
-	puts "Welcome back #{hero.name}!"
-else
-	print "Welcome!  What is your name?: "
-	hero.name = gets.chomp
-end
-=end
 
+# Create an instance of game and pass the saved file location
+# so the hero can be loaded or saved to
 game = Game.new(FILE_NAME)
-game.play
+game.play # Continues to execute until player quits
+
+puts
+puts "Goodbye!"

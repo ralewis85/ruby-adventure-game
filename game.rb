@@ -41,9 +41,6 @@ class Game
           #  result = hero.save()
           #  puts result ? "Hero file saved!" : "Unable to save file!"
           #end
-
-          puts
-          puts "Goodbye!"    
           break
         else puts "That is not a valid command!"
       end
@@ -56,7 +53,7 @@ class Game
     monster = Monster.new(nil, 20, 1)
 
     battle = Battle.new(@hero, monster)
-    hero_wins = battle.result()
+    hero_wins = battle.hero_wins()
 
     # This case will only execute if the user previous selected 'Fight'
     # otherwise 'hero_wins' will be equal to nil.
@@ -64,23 +61,10 @@ class Game
     case hero_wins
     when true
       # You won!
-      gain_exp = (((@hero.max_health - @hero.cur_health) * 0.85) * monster.level).round
-
-      puts "You win!  Gained #{gain_exp} experience!"
-      # Reward EXP to player.  Increase EXP and level if enough EXP is gained
-      # if level increases, increase max health by 30%, restore current health
-      # and let the user know the hero leveled up
-      @hero.cur_exp += gain_exp
-      while @hero.cur_exp > @hero.max_exp
-        @hero.level += 1
-        @hero.cur_exp -= @hero.max_exp
-        @hero.max_exp *= 2
-        @hero.max_health = (@hero.max_health * 1.3).round
-        @hero.cur_health = @hero.max_health
-        puts "#{@hero.name} leveled up!"
-      end 
+      puts "You win!  Gained #{battle.get_exp()} experience!"
+      @hero.win_battle(battle.get_exp())
     when false
-      puts "You lose!"
+      puts "You died!"
       # Your hero lost!  Now you must load an old save or create a new character
       while true
         print "New game or Load saved character? [New, Load]: "

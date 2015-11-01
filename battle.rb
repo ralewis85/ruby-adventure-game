@@ -31,7 +31,14 @@ class Battle
     return (@hero.cur_health > @monster.cur_health)
   end
 
-  def result
+  # Return the amount of experience gained if the monster is defeated
+  def get_exp
+      exp = 0
+      exp = (((@hero.max_health - @hero.cur_health) * 0.85) * @monster.level).round if @winner
+      return exp
+  end
+
+  def hero_wins
     return @winner
   end
 
