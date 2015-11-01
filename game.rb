@@ -104,36 +104,25 @@ class Game
 		end
 	end
 
-  # Read each line from the saved text file, if it exists, and populate character
+  # Load a saved file if it exists.  The saved file is a marshaled object of hero
   # Return true if file was able to be loaded, false otherwise
   def load
-    if File.exists?(@save_file)
-      text = File.readlines(@save_file).map(&:chomp)
-      @hero.name = text[0].to_s
-      @hero.level = text[1].to_i
-      @hero.cur_health = text[2].to_i
-      @hero.max_health = text[3].to_i
-      @hero.strength = text[4].to_i
-      @hero.cur_exp = text[5].to_i
-      @hero.max_exp = text[6].to_i
-
-      return true
-    else
-      return false
-    end
+		if File.exists?(@save_file)
+			File.open(@save_file, 'r') do |f|
+				@hero = Marshal.load(f)
+			end
+			return true
+		else
+			return false
+		end
   end
 
-  # Save the hero's progression
+  # Save a marshal object of hero
   def save
-    open(@save_file, 'w') do |f|
-      f.puts @hero.name
-      f.puts @hero.level
-      f.puts @hero.cur_health
-      f.puts @hero.max_health
-      f.puts @hero.strength
-      f.puts @hero.cur_exp
-      f.puts @hero.max_exp
-    end
+		File.open(@save_file, 'w') do |f|
+			Marshal.dump(@hero, f)
+		end
+		# TODO : Return false if unable to write to file
     return true
 	end
 end
