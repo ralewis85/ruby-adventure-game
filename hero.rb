@@ -2,8 +2,6 @@ require './character'
 
 # Hero inherited from Character
 class Hero < Character
-  attr_accessor :cur_exp, :max_exp
-
   def initialize(name, health = 100, strength = 1)
     super(name, health, strength)
     @name = name
@@ -36,19 +34,5 @@ class Hero < Character
 
   def leveled?
     return @hero_leveled
-  end
-
-  # Append the hero's experience to super
-  def status
-    stat = Hash.new("Empty!")
-    stat[:name] = @name
-    stat[:level] = @level
-    stat[:hp_cur] = @cur_health
-    stat[:hp_max] = @max_health
-    stat[:str] = @strength
-    stat[:exp_cur] = @cur_exp
-    stat[:exp_max] = @max_exp
-
-    return stat
   end
 end

@@ -18,7 +18,7 @@ class Game
     @hero = Hero.new(nil)
 
     # Initialize Curses
-    # Turn off echoing at the end of initization
+    Curses.noecho # Turn off echoing at the end of initization
     Curses.nonl # detect return/enter key with ::getch
     Curses.stdscr.keypad(false) # do not detect arrow keys
     Curses.stdscr.nodelay = true # getch does not block until a key is pressed
