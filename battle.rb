@@ -9,10 +9,11 @@ class Battle
   # The hero will fight with a given monster as a parameter
   # Return: False if the hero dies, true if the monster dies
   def fight
-    puts
-    puts "========FIGHT========"
-    puts "#{@hero.name} Vs #{@monster.name}"
-    puts
+    # TODO: Add this back in, in a curses way
+    #puts
+    #puts "========FIGHT========"
+    #puts "#{@hero.name} Vs #{@monster.name}"
+    #puts
 
     # Populate an array with X number of levels Hero is and Y number of levels Monster is
     # This way whoever is a higher level has a better chance of attacking 
