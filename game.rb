@@ -99,7 +99,7 @@ class Game
     monster = Monster.new(nil, 20, 1)
 
     battle = Battle.new(@hero, monster)
-    hero_wins = battle.hero_wins()
+    hero_wins = battle.hero_wins?()
 
     # This case will only execute if the user previous selected 'Fight'
     # otherwise 'hero_wins' will be equal to nil.

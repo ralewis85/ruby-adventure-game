@@ -39,7 +39,7 @@ class Battle
       return exp
   end
 
-  def hero_wins
+  def hero_wins?
     return @winner
   end
 
